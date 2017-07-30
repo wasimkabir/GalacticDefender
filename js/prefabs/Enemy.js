@@ -41,13 +41,27 @@ GalacticDefender.Enemy.prototype.damage = function (amount) {
 	if (this.health <= 0) {
 		var emitter = this.game.add.emitter(this.x, this.y, 100);
 		emitter.makeParticles('particle');
-		emitter.minParticleSpeed.setTo(-200,-200);
-		emitter.maxParticleSpeed.setTo(200,200);
+		emitter.minParticleSpeed.setTo(-100,-100);
+		emitter.maxParticleSpeed.setTo(100,100);
 		emitter.minParticleScale = .05;
 		emitter.maxParticleScale = .2;
 		emitter.gravity = 0;
 		emitter.start(true, 500, null, 100);
+
+		// Pause the timer
+		this.enemyTimer.pause();
 	}
+};
+GalacticDefender.Enemy.prototype.reset = function (x, y, health, key, scale, speedX, speedY) {
+	Phaser.Sprite.prototype.reset.call(this, x, y);
+
+	this.loadTexture(key);
+	this.scale.setTo(scale);
+	this.body.velocity.x = speedX;
+	this.body.velocity.y = speedY;
+
+	// Resuming the timer
+	this.enemyTimer.resume();
 };
 
 GalacticDefender.Enemy.prototype.scheduleShooting = function () {

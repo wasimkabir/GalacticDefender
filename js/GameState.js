@@ -31,6 +31,7 @@ GalacticDefender.GameState = {
 		// // obstacle.x -= 1;
 		// Player laser and enemy
 		this.game.physics.arcade.overlap(this.lasers, this.enemies, this.damageEnemy, null, this);
+		this.game.physics.arcade.overlap(this.enemyLasers, this.playerShip, this.killlPlayerShip, null, this);
 
 		this.playerShip.body.velocity.y = 0;
 		if (this.game.input.activePointer.isDown) {
@@ -66,13 +67,26 @@ GalacticDefender.GameState = {
 		this.enemyLasers = this.add.group();
 		this.enemyLasers.enableBody = true;
 
-		var enemy = new GalacticDefender.Enemy(this.game, 550, 100, 'enemyRed', 10, this.enemyLasers);
-		this.enemies.add(enemy);
-		enemy.body.velocity.x = -50;
-		enemy.body.velocity.y = 100;
+		this.enemy = new GalacticDefender.Enemy(this.game, 550, 100, 'enemyRed', 10, this.enemyLasers);
+		this.enemies.add(this.enemy);
+		this.enemy.body.velocity.x = -50;
+		this.enemy.body.velocity.y = 100;
 	},
 	damageEnemy: function (laser, enemy) {
 		enemy.damage(1);
 		laser.kill();
+	},
+	killlPlayerShip: function () {
+		this.playerShip.kill();
+		this.game.state.start('GameState');
+	},
+
+	createEnemy: function (x, y, health, key, scale, speedX, speedY) {
+		var enemy = this.enemies.getFirstExists(false);
+		if (!enemy) {
+			enemy = new GalacticDefender.Enemy(this.game, x, y, key, health, this.enemyLasers);
+			this.enemies.add(enemy);
+		}
+		enemy.reset(x, y, health, key, scale, speedX, speedY);
 	}
 };
