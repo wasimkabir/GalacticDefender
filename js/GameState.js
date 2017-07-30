@@ -21,10 +21,8 @@ GalacticDefender.GameState = {
 		this.initLasers();
 		this.shootingTimer = this.game.time.events.loop(Phaser.Timer.SECOND/this.LASER_INTERVAL, this.createPlayerLaser, this);
 
-		this.enemyRed = this.add.sprite(550, 50, 'enemyRed');
-		this.enemyRed.anchor.setTo(0.5);
-		this.enemyRed.scale.setTo(0.6);
-
+		var enemy = new GalacticDefender.Enemy(this.game, 550, 100, 'enemyRed', 10, []);
+		this.game.add.existing(enemy);
 
 		// obstacle = game.add.sprite(610, 180, 'obstacle');
 		// obstacle.anchor.setTo(0.5);
