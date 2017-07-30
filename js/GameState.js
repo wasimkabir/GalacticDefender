@@ -3,7 +3,8 @@ var GalacticDefender = GalacticDefender || {};
 GalacticDefender.GameState = {
 	init: function () {
 		this.PLAYER_SPEED = 200;
-		this.BULLET_SPEED = 1000;
+		this.LASER_SPEED = 800;
+		this.LASER_INTERVAL = 5;
 	},
 	create: function () {
 		// // game.stage.backgroundColor = "#082451";
@@ -16,6 +17,9 @@ GalacticDefender.GameState = {
 		this.playerShip.scale.setTo(0.6);
 		this.game.physics.arcade.enable(this.playerShip);
 		this.playerShip.body.collideWorldBounds = true;
+		//Lasers
+		this.initLasers();
+		this.shootingTimer = this.game.time.events.loop(Phaser.Timer.SECOND/this.LASER_INTERVAL, this.createPlayerLaser, this);
 
 		this.enemyRed = this.add.sprite(550, 50, 'enemyRed');
 		this.enemyRed.anchor.setTo(0.5);
@@ -36,5 +40,23 @@ GalacticDefender.GameState = {
 
 			this.playerShip.body.velocity.y = direction * this.PLAYER_SPEED;
 		}
+	},
+	//initLasers
+	initLasers: function () {
+		this.lasers = this.add.group();
+		this.lasers.enableBody = true;
+	},
+	createPlayerLaser: function () {
+		var laser = this.lasers.getFirstExists(false);
+		if(!laser) {
+			// Creating a laser
+			laser = new GalacticDefender.PlayerLaser(this.game, this.playerShip.x, this.playerShip.y);
+			this.lasers.add(laser);
+		} else {
+			// Reset position
+			laser.reset(this.playerShip.x, this.playerShip.y);
+		}
+		// Set velocity
+		laser.body.velocity.x = this.LASER_SPEED;
 	}
 };
