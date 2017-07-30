@@ -21,8 +21,7 @@ GalacticDefender.GameState = {
 		this.initLasers();
 		this.shootingTimer = this.game.time.events.loop(Phaser.Timer.SECOND/this.LASER_INTERVAL, this.createPlayerLaser, this);
 
-		var enemy = new GalacticDefender.Enemy(this.game, 550, 100, 'enemyRed', 10, []);
-		this.game.add.existing(enemy);
+		this.initEnemies();
 
 		// obstacle = game.add.sprite(610, 180, 'obstacle');
 		// obstacle.anchor.setTo(0.5);
@@ -30,6 +29,9 @@ GalacticDefender.GameState = {
 	update: function () {
 		// obstacle.angle -= 5;
 		// // obstacle.x -= 1;
+		// Player laser and enemy
+		this.game.physics.arcade.overlap(this.lasers, this.enemies, this.damageEnemy, null, this);
+
 		this.playerShip.body.velocity.y = 0;
 		if (this.game.input.activePointer.isDown) {
 			// Modify this code
@@ -56,5 +58,17 @@ GalacticDefender.GameState = {
 		}
 		// Set velocity
 		laser.body.velocity.x = this.LASER_SPEED;
+	},
+	initEnemies: function () {
+		this.enemies = this.add.group();
+		this.enemies.enableBody = true;
+		var enemy = new GalacticDefender.Enemy(this.game, 550, 100, 'enemyRed', 10, []);
+		this.enemies.add(enemy);
+		enemy.body.velocity.x = -50;
+		enemy.body.velocity.y = 100;
+	},
+	damageEnemy: function (laser, enemy) {
+		enemy.damage(1);
+		laser.kill();
 	}
 };
