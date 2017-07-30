@@ -1,6 +1,6 @@
 var GalacticDefender = GalacticDefender || {};
 
-GalacticDefender.Enemy = function (game, x, y, key, health, enemyLaser) {
+GalacticDefender.Enemy = function (game, x, y, key, health, enemyLasers) {
 	Phaser.Sprite.call(this, game, x, y, key);
 
 	this.game = game;
@@ -9,7 +9,11 @@ GalacticDefender.Enemy = function (game, x, y, key, health, enemyLaser) {
 	this.anchor.setTo(0.5);
 	this.scale.setTo(0.6);
 	this.health = health;
-	this.enemyLaser = enemyLaser;
+	this.enemyLasers = enemyLasers;
+
+	this.enemyTimer = this.game.time.create(false);
+	this.enemyTimer.start();
+	this.scheduleShooting();
 };
 GalacticDefender.Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 GalacticDefender.Enemy.prototype.constuctor = GalacticDefender.Enemy;
@@ -32,4 +36,32 @@ GalacticDefender.Enemy.prototype.update = function () {
 
 GalacticDefender.Enemy.prototype.damage = function (amount) {
 	Phaser.Sprite.prototype.damage.call(this, amount);
-}
+
+	// Particle explosion
+	if (this.health <= 0) {
+		var emitter = this.game.add.emitter(this.x, this.y, 100);
+		emitter.makeParticles('particle');
+		emitter.minParticleSpeed.setTo(-200,-200);
+		emitter.maxParticleSpeed.setTo(200,200);
+		emitter.minParticleScale = .05;
+		emitter.maxParticleScale = .2;
+		emitter.gravity = 0;
+		emitter.start(true, 500, null, 100);
+	}
+};
+
+GalacticDefender.Enemy.prototype.scheduleShooting = function () {
+	this.shoot();
+	// Can be used with a custom frequency
+	this.enemyTimer.add(Phaser.Timer.SECOND * 2, this.scheduleShooting, this);
+};
+GalacticDefender.Enemy.prototype.shoot = function () {
+	var enemyLaser = this.enemyLasers.getFirstExists(false);
+	if (!enemyLaser) {
+		enemyLaser = new GalacticDefender.EnemyLaser(this.game, this.x, this.bottom);
+		this.enemyLasers.add(enemyLaser);
+	} else {
+		enemyLaser.reset(this.x, this.bottom);
+	}
+	enemyLaser.body.velocity.x = -100;
+};

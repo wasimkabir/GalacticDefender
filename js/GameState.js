@@ -62,7 +62,11 @@ GalacticDefender.GameState = {
 	initEnemies: function () {
 		this.enemies = this.add.group();
 		this.enemies.enableBody = true;
-		var enemy = new GalacticDefender.Enemy(this.game, 550, 100, 'enemyRed', 10, []);
+
+		this.enemyLasers = this.add.group();
+		this.enemyLasers.enableBody = true;
+
+		var enemy = new GalacticDefender.Enemy(this.game, 550, 100, 'enemyRed', 10, this.enemyLasers);
 		this.enemies.add(enemy);
 		enemy.body.velocity.x = -50;
 		enemy.body.velocity.y = 100;
