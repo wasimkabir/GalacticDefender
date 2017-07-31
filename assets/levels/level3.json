@@ -1,11 +1,11 @@
 {
-	"duration": 10,
+	"duration": 15,
 	"enemies":
 	[
 		{
 			"time": 1,
 			"y" : 0.1,
-			"health": 6,
+			"health": 15,
 			"speedX": 10,
 			"speedY": 50,
 			"key": "enemyBlack",
@@ -15,7 +15,70 @@
 		{
 			"time": 2,
 			"y" : 0.05,
-			"health": 3,
+			"health": 20,
+			"speedX": 100,
+			"speedY": 50,
+			"key": "enemyBlue",
+			"scale": 2,
+			"laserKey": "enemyLaserBlue1"
+
+		},
+		{
+			"time": 3,
+			"y" : 0.1,
+			"health": 30,
+			"speedX": 10,
+			"speedY": 50,
+			"key": "enemyBlack",
+			"scale": 2,
+			"laserKey": "enemyLaserBlue2"
+		},
+		{
+			"time": 4,
+			"y" : 0.05,
+			"health": 6,
+			"speedX": 100,
+			"speedY": 50,
+			"key": "enemyBlue",
+			"scale": 0.5,
+			"laserKey": "enemyLaserBlue1"
+
+		},
+		{
+			"time": 5,
+			"y" : 0.1,
+			"health": 15,
+			"speedX": 10,
+			"speedY": 50,
+			"key": "enemyBlack",
+			"scale": 1,
+			"laserKey": "enemyLaserBlue2"
+		},
+		{
+			"time": 6,
+			"y" : 0.05,
+			"health": 30,
+			"speedX": 100,
+			"speedY": 50,
+			"key": "enemyBlue",
+			"scale": 2,
+			"laserKey": "enemyLaserBlue1"
+
+		},
+		{
+			"time": 7,
+			"y" : 0.1,
+			"health": 15,
+			"speedX": 10,
+			"speedY": 50,
+			"key": "enemyBlack",
+			"scale": 1,
+			"laserKey": "enemyLaserBlue2"
+		},
+		{
+			"time": 8,
+			"y" : 0.05,
+			"health": 6,
 			"speedX": 100,
 			"speedY": 50,
 			"key": "enemyBlue",

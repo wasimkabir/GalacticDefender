@@ -69,7 +69,7 @@ GalacticDefender.GameState.prototype = {
 		// Set velocity
 		laser.body.velocity.x = this.LASER_SPEED;
 		this.playerLaserSound = this.game.add.audio('playerLaser');
-		this.playerLaserSound.play();
+	this.playerLaserSound.play();
 	},
 	initEnemies: function () {
 		this.enemies = this.add.group();
