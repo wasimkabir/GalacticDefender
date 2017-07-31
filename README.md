@@ -1,0 +1,1 @@
+This is a Space Ship Shooter game for Zenva Phaser Hackathon. The game is not completed yet. I have a lots of ideas to extend this game. But, due to the lack of time I have to submit this incomplete game.
