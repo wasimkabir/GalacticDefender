@@ -1,0 +1,24 @@
+{
+	"duration": 5,
+	"enemies":
+	[
+		{
+			"time": 1,
+			"y" : 0.1,
+			"health": 6,
+			"speedX": 10,
+			"speedY": 50,
+			"key": "enemyBlack",
+			"scale": 1
+		},
+		{
+			"time": 2,
+			"y" : 0.05,
+			"health": 3,
+			"speedX": 100,
+			"speedY": 50,
+			"key": "enemyBlue",
+			"scale": 0.5
+		}
+	]
+}
