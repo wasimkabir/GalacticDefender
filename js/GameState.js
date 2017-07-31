@@ -68,6 +68,8 @@ GalacticDefender.GameState.prototype = {
 		}
 		// Set velocity
 		laser.body.velocity.x = this.LASER_SPEED;
+		this.playerLaserSound = this.game.add.audio('playerLaser');
+	this.playerLaserSound.play();
 	},
 	initEnemies: function () {
 		this.enemies = this.add.group();
@@ -76,10 +78,6 @@ GalacticDefender.GameState.prototype = {
 		this.enemyLasers = this.add.group();
 		this.enemyLasers.enableBody = true;
 
-		// this.enemy = new GalacticDefender.Enemy(this.game, 550, 100, 'enemyRed', 10, this.enemyLasers);
-		// this.enemies.add(this.enemy);
-		// this.enemy.body.velocity.x = -50;
-		// this.enemy.body.velocity.y = 100;
 	},
 	damageEnemy: function (laser, enemy) {
 		enemy.damage(1);
@@ -90,13 +88,13 @@ GalacticDefender.GameState.prototype = {
 		this.game.state.start('GameState');
 	},
 
-	createEnemy: function (x, y, health, key, scale, speedX, speedY) {
+	createEnemy: function (x, y, health, key, scale, speedX, speedY, laserKey) {
 		var enemy = this.enemies.getFirstExists(false);
 		if (!enemy) {
-			enemy = new GalacticDefender.Enemy(this.game, x, y, key, health, this.enemyLasers);
+			enemy = new GalacticDefender.Enemy(this.game, x, y, key, health, this.enemyLasers, laserKey);
 			this.enemies.add(enemy);
 		}
-		enemy.reset(x, y, health, key, scale, speedX, speedY);
+		enemy.reset(x, y, health, key, scale, speedX, speedY, laserKey);
 	},
 	loadLevel: function () {
 		this.currentEnemyIndex = 0;
@@ -122,7 +120,7 @@ GalacticDefender.GameState.prototype = {
 		if (nextEnemy) {
 			var nextTime = 1000 * (nextEnemy.time - (this.currentEnemyIndex == 0 ? 0 : this.levelData.enemies[this.currentEnemyIndex - 1].time));
 			this.nextEnemyTimer = this.game.time.events.add(nextTime, function(){
-				this.createEnemy(550, nextEnemy.y * this.game.world.height, nextEnemy.health, nextEnemy.key, nextEnemy.scale, -nextEnemy.speedX, nextEnemy.speedY)
+				this.createEnemy(550, nextEnemy.y * this.game.world.height, nextEnemy.health, nextEnemy.key, nextEnemy.scale, -nextEnemy.speedX, nextEnemy.speedY, nextEnemy.laserKey);
 				this.currentEnemyIndex++;
 				this.scheduleNextEnemy();
 			}, this);
